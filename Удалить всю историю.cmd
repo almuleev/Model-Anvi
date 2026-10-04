@@ -1,8 +1,8 @@
 @echo off
 setlocal
-set "PYTHONW=%LOCALAPPDATA%\Programs\Python\Python310\pythonw.exe"
+set "PYTHONW=%~dp0.venv\Scripts\pythonw.exe"
 if not exist "%PYTHONW%" (
-  echo Python was not found: %PYTHONW%
+  echo Dependencies are not installed. Run "Установить зависимости.cmd" first.
   pause
   exit /b 1
 )
