@@ -7,6 +7,7 @@ from collections import OrderedDict
 
 STAGE_NAMES = {
     "chat": "Модель / чат",
+    "attachments": "Подготовка вложений",
     "prepare": "Подготовка кода",
     "scan": "Первичный просмотр",
     "review": "Повторная проверка",

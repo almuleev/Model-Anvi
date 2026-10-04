@@ -1,6 +1,7 @@
 """Remove data created by the local chat after its window has closed."""
 
 import json
+import shutil
 import sqlite3
 import sys
 import time
@@ -83,8 +84,16 @@ def purge_local_data(app_dir=APP_DIR):
                                  for suffix in ("-wal", "-shm", "-journal"))))
     for path in paths:
         path.unlink(missing_ok=True)
+    attachments_dir = app_dir / "attachments"
+    if (attachments_dir.is_symlink()
+            or attachments_dir.resolve().parent != app_dir.resolve()):
+        raise RuntimeError("Папка вложений имеет недопустимый путь")
+    if attachments_dir.is_dir():
+        shutil.rmtree(attachments_dir)
     if any(path.exists() for path in paths):
         raise RuntimeError("Некоторые файлы приложения не удалились")
+    if attachments_dir.exists():
+        raise RuntimeError("Некоторые вложения не удалились")
     return chat_count, message_count
 
 
