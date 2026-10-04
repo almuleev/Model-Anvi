@@ -1,4 +1,4 @@
-"""Small local chat for the existing Ollama installation. No third-party packages."""
+"""NeuroQuay: local Qwen chat, attachments, and code review through Ollama."""
 
 import json
 import os
@@ -197,7 +197,7 @@ def bounded_analysis_items(items, char_limit, per_item_limit=None):
 class LocalChat:
     def __init__(self, root):
         self.root = root
-        self.root.title("Локальный чат · Qwen3.8")
+        self.root.title("NeuroQuay · Qwen3.8")
         self.root.geometry("1000x680")
         self.root.minsize(720, 480)
         self.events = queue.Queue()
@@ -1923,10 +1923,10 @@ class LocalChat:
                     if not self.stopping:
                         self.set_action_buttons("normal")
                     self.stop_button.configure(state="normal")
-                    self.set_status("Подключено · локально · история на X:")
+                    self.set_status("Подключено · локально · история в папке приложения")
                 elif kind == "server_error":
                     self.set_status("Ошибка подключения к Ollama")
-                    messagebox.showerror("Локальный чат", value)
+                    messagebox.showerror("NeuroQuay", value)
                 elif kind == "token":
                     request_id, token = value
                     if request_id != self.request_id or self.stopping:
@@ -1970,7 +1970,7 @@ class LocalChat:
                     if kind == "analysis_incomplete":
                         self.set_status("Итог анализа не завершён · сохранён частичный ответ")
                     else:
-                        self.set_status("Готово · локально · история на X:")
+                        self.set_status("Готово · локально · история в папке приложения")
                 elif kind == "generation_error":
                     request_id, error = value
                     if request_id != self.request_id or self.stopping:
