@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+history.sqlite3
+history.sqlite3-*
+server.log
+*.bak
