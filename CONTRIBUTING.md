@@ -1,4 +1,4 @@
-# Разработка NeuroQuay
+# Разработка Model Anvi
 
 Перед изменениями прочитай [AGENTS.md](AGENTS.md) и [ARCHITECTURE.md](ARCHITECTURE.md).
 

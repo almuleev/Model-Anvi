@@ -1,4 +1,4 @@
-# Развитие NeuroQuay
+# Развитие Model Anvi
 
 [Назад к README](../README.md)
 

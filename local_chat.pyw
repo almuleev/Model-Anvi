@@ -1,4 +1,4 @@
-"""NeuroQuay: local Qwen chat, attachments, and code review through Ollama."""
+"""Model Anvi: local Qwen chat, attachments, and code review through Ollama."""
 
 import json
 import os
@@ -197,7 +197,7 @@ def bounded_analysis_items(items, char_limit, per_item_limit=None):
 class LocalChat:
     def __init__(self, root):
         self.root = root
-        self.root.title("NeuroQuay · Qwen3.8")
+        self.root.title("Model Anvi · Qwen3.8")
         self.root.geometry("1000x680")
         self.root.minsize(720, 480)
         self.events = queue.Queue()
@@ -1517,6 +1517,7 @@ class LocalChat:
         budget = max(1200, min(9000, num_ctx - num_predict - 1400))
         per_document = max(800, budget // max(1, len(documents)))
         additions, image_paths = [], []
+        attachments_root = ATTACHMENTS_DIR.resolve()
         try:
             for attachment_id, _message_id, name, kind, relative, raw_metadata in selected:
                 if cancel_event.is_set():
@@ -1527,9 +1528,9 @@ class LocalChat:
                     result = process_attachment(source, kind)
                     metadata = {
                         "processed": True,
-                        "text_path": str(result.get("text_path", "").relative_to(ATTACHMENTS_DIR))
+                        "text_path": str(result.get("text_path", "").relative_to(attachments_root))
                         if result.get("text_path") else "",
-                        "images": [str(path.relative_to(ATTACHMENTS_DIR))
+                        "images": [str(path.relative_to(attachments_root))
                                    for path in result["images"]],
                         "scanned_pages": result.get("scanned_pages", []),
                         "scans_read": False,
@@ -1926,7 +1927,7 @@ class LocalChat:
                     self.set_status("Подключено · локально · история в папке приложения")
                 elif kind == "server_error":
                     self.set_status("Ошибка подключения к Ollama")
-                    messagebox.showerror("NeuroQuay", value)
+                    messagebox.showerror("Model Anvi", value)
                 elif kind == "token":
                     request_id, token = value
                     if request_id != self.request_id or self.stopping:

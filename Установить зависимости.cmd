@@ -25,7 +25,7 @@ if not exist "%VENV_PYTHON%" goto failed
 if errorlevel 1 goto python_missing
 "%VENV_PYTHON%" -m pip install -r "%~dp0requirements.txt"
 if errorlevel 1 goto failed
-echo NeuroQuay dependencies installed.
+echo Model Anvi dependencies installed.
 if /i not "%~1"=="--no-pause" pause
 exit /b 0
 

@@ -25,9 +25,9 @@ LocalChat = MODULE["LocalChat"]
 
 class AttachmentTests(unittest.TestCase):
     @contextmanager
-    def attachment_database(self, root, copied):
+    def attachment_database(self, root, copied, store=None):
         database = root / "history.sqlite3"
-        store = root / "attachments"
+        store = root / "attachments" if store is None else store
 
         @contextmanager
         def managed_connection():
@@ -131,6 +131,39 @@ class AttachmentTests(unittest.TestCase):
                     [{"role": "user", "content": "source.txt: какое число?",
                       "message_id": 2}], 8192, 2048, 4, threading.Event())
                 self.assertIn("Секретное число: 42", older[-1]["content"])
+
+    def test_attachment_metadata_handles_an_aliased_storage_path(self):
+        from PIL import Image
+
+        for kind in ("document", "image"):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                store = root / "attachments"
+                if kind == "document":
+                    source = root / "notes.txt"
+                    source.write_text("Значение: 42", encoding="utf-8")
+                else:
+                    source = root / "photo.png"
+                    Image.new("RGB", (40, 30), "blue").save(source)
+                copied = copy_sources(validate_sources([source]), store, 1)[0]
+                alias = store / ".." / "attachments"
+                with self.attachment_database(root, copied, store=alias) as (app, connect):
+                    prepared = app.prepare_chat_messages(
+                        [{"role": "user", "content": "Прочитай файл", "message_id": 1}],
+                        8192, 2048, 3, threading.Event())
+                    if kind == "document":
+                        self.assertIn("Значение: 42", prepared[-1]["content"])
+                    else:
+                        self.assertTrue(base64.b64decode(prepared[-1]["images"][0]).startswith(b"\xff\xd8"))
+                    with connect() as db:
+                        metadata = json.loads(db.execute(
+                            "SELECT metadata FROM attachments").fetchone()[0])
+                    paths = metadata["images"] + ([metadata["text_path"]] if metadata["text_path"] else [])
+                    self.assertTrue(paths)
+                    for relative in paths:
+                        self.assertFalse(Path(relative).is_absolute())
+                        self.assertNotIn("..", Path(relative).parts)
+                        self.assertTrue((store / relative).is_file())
 
     def test_photo_payload_contains_jpeg_and_scan_is_cached(self):
         from PIL import Image

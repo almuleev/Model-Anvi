@@ -1,16 +1,16 @@
-# NeuroQuay — Local AI Workspace
+# Model Anvi — Local AI Workspace
 
 **Твой локальный ИИ для чата, документов и кода.**
 
 Local AI desktop workspace powered by Ollama: private chat, document & image Q&A,
 code review, reasoning controls, and token timing. Windows · Python · Tkinter.
 
-NeuroQuay («нейро-кей») — настольное приложение, в котором можно обсудить идею,
+Model Anvi — настольное приложение, в котором можно обсудить идею,
 задать вопрос по файлу и разобрать код проекта. Модель работает через локальную
 Ollama, диалоги сохраняются на компьютере. После загрузки модели и зависимостей
 для локального вывода не нужны аккаунт, API-ключ или подключение к интернету.
 
-![Окно NeuroQuay: история, Markdown, глубина рассуждения и прикреплённый файл](docs/images/chat.png)
+![Окно Model Anvi: история, Markdown, глубина рассуждения и прикреплённый файл](docs/images/chat.png)
 
 *Реальный интерфейс приложения с демонстрационной историей. Ответы на снимках
 подготовлены заранее; это примеры использования, а не результаты тестирования модели.*
@@ -52,12 +52,12 @@ ollama list
 
 ### 2. Скачай проект
 
-Клонируй [almuleev/NeuroQuay](https://github.com/almuleev/NeuroQuay)
+Клонируй [almuleev/Model-Anvi](https://github.com/almuleev/Model-Anvi)
 через GitHub Desktop или Git:
 
 ```powershell
-git clone https://github.com/almuleev/NeuroQuay.git
-cd NeuroQuay
+git clone https://github.com/almuleev/Model-Anvi.git
+cd Model-Anvi
 ```
 
 Репозиторий приватный: для скачивания нужен доступ к нему.
@@ -103,13 +103,13 @@ cd NeuroQuay
 быть пути, номера строк и предложения исправлений. Исходники остаются под твоим
 управлением — инструменты модели работают только для чтения.
 
-![NeuroQuay: пример обзора Python-кода с объяснением ошибки и предложением исправления](docs/images/code-review.png)
+![Model Anvi: пример обзора Python-кода с объяснением ошибки и предложением исправления](docs/images/code-review.png)
 
 *Демонстрационный сценарий: обработка пустого списка в `average.py`.*
 
 ## Модели и направление развития
 
-Название NeuroQuay подходит для разных локальных моделей. Сейчас приложение
+Название Model Anvi подходит для разных локальных моделей. Сейчас приложение
 настроено на **один тег** `qwen3.8:27b-q4_K_M`; переключателя и загрузчика моделей
 в интерфейсе пока нет. Ollama может хранить несколько моделей, но наличие
 другой модели само по себе не переключает чат.

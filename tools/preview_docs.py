@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-loader = SourceFileLoader("neuroquay_preview_app", str(ROOT / "local_chat.pyw"))
+loader = SourceFileLoader("model_anvi_preview_app", str(ROOT / "local_chat.pyw"))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 app_module = importlib.util.module_from_spec(spec)
 loader.exec_module(app_module)
@@ -40,8 +40,8 @@ app_module.db_connect = preview_db_connect
 
 EXAMPLES = [
     (
-        "Как начать с NeuroQuay",
-        "Для каких задач использовать NeuroQuay?",
+        "Как начать с Model Anvi",
+        "Для каких задач использовать Model Anvi?",
         "## Твой локальный ИИ для файлов и кода\n\n"
         "**Чат.** Задавай вопросы, уточняй ответ и возвращайся к сохранённым диалогам.\n\n"
         "**Документы и изображения.** Прикрепи PDF, таблицу или фото и напиши, "
@@ -106,7 +106,7 @@ def main():
     parser.add_argument("--seconds", type=int, default=0, help="Auto-close after N seconds")
     parser.add_argument("--output", type=Path, help="Save this demo window as PNG and exit (Windows)")
     args = parser.parse_args()
-    with tempfile.TemporaryDirectory(prefix="neuroquay-docs-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="model_anvi-docs-") as temporary:
         preview_dir = Path(temporary)
         app_module.APP_DIR = preview_dir
         app_module.DB_PATH = preview_dir / "history.sqlite3"
@@ -127,7 +127,7 @@ def main():
 
         root = tk.Tk()
         ui = PreviewChat(root)
-        root.title("NeuroQuay · Qwen3.8 · Демо")
+        root.title("Model Anvi · Qwen3.8 · Демо")
         root.geometry("1260x840" if args.scene == "chat" else "1260x940")
 
         def show_scene():
@@ -142,7 +142,7 @@ def main():
             ui.editor_panes.sash_place(0, 0, 430 if args.scene == "chat" else 530)
             if args.scene == "chat":
                 sample = preview_dir / "Описание проекта.txt"
-                sample.write_text("NeuroQuay: локальный чат, документы и код.", encoding="utf-8")
+                sample.write_text("Model Anvi: локальный чат, документы и код.", encoding="utf-8")
                 ui.pending_attachments = [sample]
                 ui.refresh_attachment_list()
                 ui.prompt.insert("1.0", "Составь короткий план по прикреплённому описанию проекта.")
